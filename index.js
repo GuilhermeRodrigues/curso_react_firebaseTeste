@@ -19,9 +19,31 @@ class App extends Component {
           firebase.initializeApp(firebaseConfig);
     }
 
+    salvarDados() {
+        var funcionarios = firebase.database().ref("funcionarios");
+        //database.ref("pontuacao").remove();
+
+        funcionarios.push().set(
+            {
+                nome: "Paulo Alves",
+                altura: "1,70",
+                peso: "70kg"
+            }
+        );
+        //funcionarios.remove;
+
+        
+    }
+
     render() {
         return ( 
             <View>
+                <Button 
+                    onPress={() => {this.salvarDados(); }}
+                    title="Salvar dados"
+                    color="#841584"
+                    accessibilityLabel="Salvar dados"
+                />
                 <Text>Meu App</Text>
             </View>
         );
