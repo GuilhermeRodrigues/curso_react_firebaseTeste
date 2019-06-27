@@ -5,6 +5,12 @@ import firebase from 'firebase';
 import { AppRegistry, View, Text, Button } from 'react-native';
 
 class App extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { pontuacao: 0 };
+    }
+
     componentWillMount() {
         var firebaseConfig = {
             apiKey: "AIzaSyC9X2JORarFVJhVXTXde2pnwuFIgUja1-A",
@@ -30,13 +36,24 @@ class App extends Component {
                 peso: "70kg"
             }
         );
-        //funcionarios.remove;
+        //funcionarios.remove;        
+    }
 
-        
+    listarDados() {
+        var pontuacao = firebase.database().ref("pontuacao");
+
+        pontuacao.on('value', (snapshot) => {
+            var pontos = snapshot.val();
+            this.setState( { pontuacao: pontos } );
+        });
     }
 
     render() {
+
+        let {pontuacao} = this.state;
+
         return ( 
+            
             <View>
                 <Button 
                     onPress={() => {this.salvarDados(); }}
@@ -44,7 +61,13 @@ class App extends Component {
                     color="#841584"
                     accessibilityLabel="Salvar dados"
                 />
-                <Text>Meu App</Text>
+                <Button 
+                    onPress={() => {this.listarDados(); }}
+                    title="Listar dados"
+                    color="#841584"
+                    accessibilityLabel="Listar dados"
+                />
+                <Text>{pontuacao}</Text>
             </View>
         );
     }
