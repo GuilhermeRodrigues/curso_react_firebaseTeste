@@ -34,11 +34,33 @@ class App extends Component {
                 var mensagemErro = "";
 
                 if (erro.code == "auth/weak-password") {
-                    mensagemErro = "A senha precisa ter no minimo 6 caracteres."
+                    mensagemErro = "A senha precisa ter no minimo 6 caracteres.";
                 }
-                alert( mensagemErro );
+                alert(mensagemErro);
             }
         );
+    }
+
+    verificarUsuarioLogado() {
+        const usuario = firebase.auth();
+
+        usuario.onAuthStateChanged(
+            (usuarioAtual) => {
+                if (usuarioAtual) {
+                    alert("Usuário está logado");
+                } else {
+                    alert("Usuário não está logado");
+                }
+            }
+        );
+        
+        /*const usuarioAtual = usuario.currentUser;
+
+        if (usuarioAtual) {
+            alert("Usuário está logado");
+        } else {
+            alert("Usuário não está logado");
+        }*/
     }
 
     render() {
@@ -53,10 +75,10 @@ class App extends Component {
                     accessibilityLabel="Cadastrar Usuário"
                 />
                 <Button 
-                    onPress={() => {this.listarDados(); }}
-                    title="Listar dados"
+                    onPress={() => {this.verificarUsuarioLogado(); }}
+                    title="Verificar usuário logado"
                     color="#841584"
-                    accessibilityLabel="Listar dados"
+                    accessibilityLabel="Verificar usuário logado"
                 />
             </View>
         );
