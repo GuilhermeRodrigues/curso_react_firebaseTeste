@@ -6,11 +6,6 @@ import { AppRegistry, View, Text, Button } from 'react-native';
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { pontuacao: 0 };
-    }
-
     componentWillMount() {
         var firebaseConfig = {
             apiKey: "AIzaSyC9X2JORarFVJhVXTXde2pnwuFIgUja1-A",
@@ -25,41 +20,37 @@ class App extends Component {
           firebase.initializeApp(firebaseConfig);
     }
 
-    salvarDados() {
-        var funcionarios = firebase.database().ref("funcionarios");
-        //database.ref("pontuacao").remove();
+    cadastrarUsuario() {
+        var email = "guilherme@teste.com";
+        var senha = "teste123";
 
-        funcionarios.push().set(
-            {
-                nome: "Paulo Alves",
-                altura: "1,70",
-                peso: "70kg"
+        const usuario = firebase.auth();
+
+        usuario.createUserWithEmailAndPassword(
+            email,
+            senha
+        ).catch(
+            (erro) => {
+                var mensagemErro = "";
+
+                if (erro.code == "auth/weak-password") {
+                    mensagemErro = "A senha precisa ter no minimo 6 caracteres."
+                }
+                alert( mensagemErro );
             }
         );
-        //funcionarios.remove;        
-    }
-
-    listarDados() {
-        var pontuacao = firebase.database().ref("pontuacao");
-
-        pontuacao.on('value', (snapshot) => {
-            var pontos = snapshot.val();
-            this.setState( { pontuacao: pontos } );
-        });
     }
 
     render() {
-
-        let {pontuacao} = this.state;
 
         return ( 
             
             <View>
                 <Button 
-                    onPress={() => {this.salvarDados(); }}
-                    title="Salvar dados"
+                    onPress={() => {this.cadastrarUsuario(); }}
+                    title="Cadastrar Usuário"
                     color="#841584"
-                    accessibilityLabel="Salvar dados"
+                    accessibilityLabel="Cadastrar Usuário"
                 />
                 <Button 
                     onPress={() => {this.listarDados(); }}
@@ -67,7 +58,6 @@ class App extends Component {
                     color="#841584"
                     accessibilityLabel="Listar dados"
                 />
-                <Text>{pontuacao}</Text>
             </View>
         );
     }
