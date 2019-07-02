@@ -63,22 +63,56 @@ class App extends Component {
         }*/
     }
 
+    deslogarUsuario() {
+        const usuario = firebase.auth();
+
+        usuario.signOut();
+    }
+
+    logarUsuario() {
+        var email = "guilherme@teste.com";
+        var senha = "teste123";
+
+        const usuario = firebase.auth();
+
+        usuario.signInWithEmailAndPassword(
+            email,
+            senha
+        ).catch(
+            (erro) => {
+                alert(erro.message);
+            }
+        );
+    }
+
     render() {
 
         return ( 
             
             <View>
                 <Button 
-                    onPress={() => {this.cadastrarUsuario(); }}
+                    onPress={() => { this.cadastrarUsuario(); }}
                     title="Cadastrar Usuário"
                     color="#841584"
                     accessibilityLabel="Cadastrar Usuário"
                 />
                 <Button 
-                    onPress={() => {this.verificarUsuarioLogado(); }}
+                    onPress={() => { this.verificarUsuarioLogado(); }}
                     title="Verificar usuário logado"
                     color="#841584"
                     accessibilityLabel="Verificar usuário logado"
+                />
+                <Button 
+                    onPress={() => { this.deslogarUsuario(); }}
+                    title="Deslogar usuário"
+                    color="#841584"
+                    accessibilityLabel="Deslogar usuário"
+                />
+                <Button 
+                    onPress={() => { this.logarUsuario(); }}
+                    title="Logar usuário"
+                    color="#841584"
+                    accessibilityLabel="Logar usuário"
                 />
             </View>
         );
